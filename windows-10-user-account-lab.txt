@@ -1,0 +1,80 @@
+Windows 10 Home Lab - User Account Test
+
+Purpose:
+Create, test, and remove a temporary local Windows user account in a Windows 10 lab VM.
+
+Environment:
+VM Name: Win10-Lab-01
+Platform: VirtualBox
+Guest OS: Windows 10 Pro
+Primary lab user: LabUser
+Temporary test user: TempUser
+
+System Information Collected:
+Hostname: DESKTOP-JRSCACV
+IPv4 Address: 10.0.2.15
+Internet connectivity test to 8.8.8.8: Successful
+DNS/name resolution test to google.com: Successful
+Logged-in user before account work: desktop-jrscacv\labuser
+
+Commands Used:
+hostname
+ipconfig
+ping 8.8.8.8
+ping google.com
+systeminfo
+whoami
+net user
+net user LabUser
+net user TempUser TempPass123! /add
+net localgroup administrators
+net localgroup administrators TempUser /add
+logoff
+notepad
+net user TempUser /delete
+
+Work Performed:
+1. Built and started a Windows 10 Pro virtual machine in VirtualBox.
+2. Verified basic network connectivity and DNS resolution.
+3. Gathered system details including hostname, OS, system type, IP address, and current user context.
+4. Reviewed existing local user accounts on the machine.
+5. Confirmed LabUser account was active.
+6. Opened an elevated Command Prompt after the standard Command Prompt failed to create a user due to insufficient permissions.
+7. Created a temporary local user account named TempUser.
+8. Verified TempUser appeared in the local user list and that the account was active.
+9. Checked the local Administrators group and confirmed TempUser was not initially a member.
+10. Added TempUser to the local Administrators group.
+11. Verified TempUser was successfully added to the Administrators group.
+12. Logged out of the LabUser session.
+13. Logged in successfully as TempUser using the assigned password.
+14. Verified the new session identity with whoami.
+15. Confirmed TempUser had Administrators group membership.
+16. Opened Notepad as TempUser and created a test file named login-test.txt.
+17. Verified the file saved successfully, then confirmed it had been saved in Documents rather than Desktop because the default save location was used.
+18. Deleted the test file after confirming file creation worked.
+19. Opened an elevated Command Prompt while logged in as TempUser.
+20. Deleted the TempUser account.
+21. Verified TempUser no longer appeared in the local user list.
+22. Shut down the VM cleanly.
+
+Issues Encountered and Resolved:
+- Initial attempt to create TempUser failed because the command syntax was wrong. Resolved by correcting the spacing in the command.
+- Second attempt to create TempUser failed with “System error 5 has occurred. Access is denied.” Resolved by reopening Command Prompt as administrator.
+- The test file was expected on the Desktop but was actually saved in Documents because the default save location was used. Resolved by checking the Documents folder and confirming the file there.
+
+What This Lab Demonstrated:
+- Basic Windows VM setup
+- Use of Command Prompt for support tasks
+- Gathering system and network information
+- Testing connectivity and DNS
+- Viewing and verifying local user accounts
+- Creating a local user
+- Checking account status
+- Managing local administrator membership
+- Verifying login with a newly created account
+- Confirming file creation in a user profile
+- Cleaning up temporary accounts and files
+- Verifying changes rather than assuming success
+
+Summary:
+This lab simulated a basic help desk style Windows administration task. I created a temporary local user, verified the account, granted administrator rights, signed in as that user, confirmed access worked, tested file creation, then removed the account and verified cleanup.
